@@ -1,69 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Menu Toggle
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
+  // Atualizar ano no footer
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
+  // Mobile Menu
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const openIcon = document.getElementById('menu-icon-open');
+  const closeIcon = document.getElementById('menu-icon-close');
 
-      // Toggle icons
-      const openIcon = document.getElementById('menu-icon-open');
-      const closeIcon = document.getElementById('menu-icon-close');
+  const toggleMenu = () => {
+    const isOpen = menu.classList.contains('active');
+    menu.classList.toggle('active');
+    menuBtn.setAttribute('aria-expanded', !isOpen);
+    menu.setAttribute('aria-hidden', isOpen);
+    openIcon.style.display = isOpen ? 'block' : 'none';
+    closeIcon.style.display = isOpen ? 'none' : 'block';
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  };
 
-      if (mobileMenu.classList.contains('active')) {
-        openIcon.style.display = 'none';
-        closeIcon.style.display = 'block';
-      } else {
-        openIcon.style.display = 'block';
-        closeIcon.style.display = 'none';
-      }
-    });
+  if (menuBtn && menu) {
+    menuBtn.addEventListener('click', toggleMenu);
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', toggleMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('active')) toggleMenu(); });
   }
 
-  // Close mobile menu when clicking a link inside it
-  const mobileLinks = mobileMenu.querySelectorAll('.nav-link');
-  mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('active');
-      document.getElementById('menu-icon-open').style.display = 'block';
-      document.getElementById('menu-icon-close').style.display = 'none';
-    });
-  });
+  // Smooth Scroll & Header Scroll Effect
+  const header = document.getElementById('header');
+  const updateHeader = () => header.classList.toggle('scrolled', window.scrollY > 50);
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
 
-  // Smooth scrolling for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
-        });
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = header.offsetHeight + 16;
+        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+        if (menu.classList.contains('active')) toggleMenu();
       }
     });
   });
 
-  // Lazy load images
-  const images = document.querySelectorAll('img[data-src]');
-  const imageObserver = new IntersectionObserver((entries, observer) => {
+  // Scroll Animations
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.removeAttribute('data-src');
-        imageObserver.unobserve(img);
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
       }
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.step-card, .benefit-card, .audience-card, .pricing-card, .success-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    observer.observe(el);
   });
 
-  images.forEach(img => imageObserver.observe(img));
-
-  // Remove preload class after page loads to enable transitions
-  window.addEventListener('load', () => {
-    document.body.classList.remove('preload');
-  });
+  // Remover preload
+  window.addEventListener('load', () => document.body.classList.remove('preload'));
 });
