@@ -82,14 +82,11 @@ h1, h2, h3, h4, .logo-text { font-family: 'Poppins', sans-serif; font-weight: 70
 .logo-text { font-size: 1.15rem; font-weight: 700; color: var(--dark); }
 .logo-text span { color: var(--primary); }
 
-/* Desktop elements hidden on mobile */
 .nav-desktop, .header-ctas { display: none; }
 
-/* Hamburger Button (44x44px touch target) */
 .mobile-menu-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--dark); border-radius: var(--radius-sm); transition: background 0.2s; }
 .mobile-menu-btn:hover { background: rgba(0,0,0,0.04); }
 
-/* Mobile Menu Overlay */
 .mobile-menu {
   position: fixed; top: 0; right: -100%; width: 85%; max-width: 320px; height: 100vh;
   background: var(--white); padding: 5rem 1.5rem 2rem;
@@ -104,7 +101,6 @@ h1, h2, h3, h4, .logo-text { font-family: 'Poppins', sans-serif; font-weight: 70
 .mobile-link:hover { color: var(--primary); }
 .mobile-cta { margin-top: 0.5rem; border-radius: var(--radius-md); }
 
-/* Floating WhatsApp (Conversion Standard) */
 .whatsapp-float {
   position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 998;
   width: 56px; height: 56px; background: #25D366; border-radius: 50%;
@@ -137,7 +133,7 @@ section { padding: 4rem 0; }
 .how-it-works { background: var(--white); }
 .why-use { background: var(--light); }
 .success-cases { background: var(--dark); color: var(--white); padding: 4rem 0; }
-.final-cta { background: linear-gradient(135deg, #f8fafc, #e2e8f0); text-align: center; }
+.final-cta { background: linear-gradient(135deg, #f8fafc, #e2e8f0); text-align: center; position: relative; overflow: hidden; }
 
 .steps-grid, .benefits-grid, .audience-grid, .pricing-grid, .success-grid {
   display: grid; max-width: 1280px; margin: 0 auto; padding: 0 1.25rem; gap: 1.5rem;
@@ -148,7 +144,6 @@ section { padding: 4rem 0; }
 .pricing-grid { grid-template-columns: 1fr; align-items: stretch; }
 .success-grid { grid-template-columns: 1fr; justify-items: center; }
 
-/* Cards */
 .step-card, .benefit-card, .audience-card, .pricing-card, .success-card {
   background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.04); transition: var(--transition);
 }
@@ -161,11 +156,15 @@ section { padding: 4rem 0; }
 .audience-icon { font-size: 1.8rem; display: block; margin-bottom: 0.4rem; }
 .audience-card span { font-weight: 500; display: block; font-size: 0.95rem; }
 
-/* Pricing Specifics */
-.pricing-card { display: flex; flex-direction: column; justify-content: space-between; }
-.pricing-card.featured { border: 2px solid var(--primary); position: relative; }
-.pricing-card.featured::before { content: 'MAIS POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px; }
-.plan-header { text-align: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; }
+/* Pricing */
+.pricing-card { display: flex; flex-direction: column; justify-content: space-between; min-height: 460px; }
+.pricing-card.featured { border: 2px solid var(--primary); position: relative; box-shadow: 0 8px 30px rgba(37, 99, 235, 0.15); }
+.pricing-card.featured::before {
+  content: 'MAIS POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--primary); color: white; font-size: 0.7rem; font-weight: 700;
+  padding: 4px 16px; border-radius: 20px; letter-spacing: 0.5px; white-space: nowrap; z-index: 10;
+}
+.plan-header { text-align: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; margin-top: 0.5rem; }
 .plan-tag { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: white; margin-bottom: 0.8rem; }
 .plan-tag.starter { background: var(--secondary); }
 .plan-tag.profissional { background: var(--primary); }
@@ -175,7 +174,7 @@ section { padding: 4rem 0; }
 .plan-subtitle { color: var(--gray); font-size: 0.9rem; }
 .pricing-cta { margin: 1.2rem 0; }
 .pricing-cta .btn { width: 100%; justify-content: center; }
-.plan-features { list-style: none; padding: 0; margin: 0; }
+.plan-features { list-style: none; padding: 0; margin: 0; margin-top: auto; }
 .plan-feature { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
 .plan-feature:last-child { border: none; }
 .plan-feature strong { color: var(--dark); font-weight: 600; }
@@ -201,7 +200,9 @@ section { padding: 4rem 0; }
 .success-footer .btn { min-width: 240px; }
 
 /* Final CTA & Footer */
+.final-cta-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
 .final-cta-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+
 .footer { background: var(--dark); color: var(--white); padding: 3rem 0 1.5rem; }
 .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; padding-bottom: 2rem; }
 .footer-brand { font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
@@ -213,6 +214,19 @@ section { padding: 4rem 0; }
 .footer-links a:hover { color: var(--white); transform: translateX(3px); display: inline-block; }
 .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); color: #64748b; font-size: 0.8rem; }
 
+/* Pricing Footer Fix */
+.pricing-footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid #e2e8f0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pricing-footer p { color: var(--gray); font-size: 1.05rem; margin-bottom: 1.5rem; }
+.pricing-footer .btn { min-width: 280px; margin: 0 auto; }
+
 /* ========================================
    DESKTOP ENHANCEMENTS (min-width: 768px)
 ======================================== */
@@ -222,7 +236,7 @@ section { padding: 4rem 0; }
   .mobile-menu { display: none; }
   .nav-desktop { display: flex; gap: 2rem; }
   .header-ctas { display: block; }
-  .whatsapp-float { display: none; } /* Esconde flutuante no desktop, usa CTA do header */
+  .whatsapp-float { display: none; }
   
   .hero { padding: 9rem 0 6rem; }
   .hero-stats { grid-template-columns: repeat(4, 1fr); }
@@ -233,6 +247,7 @@ section { padding: 4rem 0; }
   .footer-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
   
   section { padding: 5rem 0; }
+  .pricing-card { min-height: 520px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
